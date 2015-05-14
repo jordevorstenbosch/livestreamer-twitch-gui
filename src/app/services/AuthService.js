@@ -24,6 +24,7 @@ define([
 
 	return Ember.Service.extend( Ember.Evented, {
 		metadata: Ember.inject.service(),
+		store   : Ember.inject.service(),
 
 		config: Ember.computed.alias( "metadata.config" ),
 		scope : Ember.computed.alias( "config.twitch-oauth-scope" ),
@@ -46,15 +47,14 @@ define([
 
 
 		init: function() {
-			var self = this;
-			// FIXME: remove this and use service injection. requires ember-data upgrade
-			self.store = self.container.lookup( "store:main" );
+			var self  = this;
+			var store = get( self, "store" );
 
-			self.store.find( "auth" )
+			store.find( "auth" )
 				.then(function( records ) {
 					return records.content.length
 						? records.objectAt( 0 )
-						: self.store.createRecord( "auth", { id: 1 } ).save();
+						: store.createRecord( "auth", { id: 1 } ).save();
 				})
 				.then(function( session ) {
 					set( self, "session", session );
@@ -199,7 +199,7 @@ define([
 		 */
 		validateSession: function() {
 			// validate token
-			return this.store.findAll( "twitchToken", null )
+			return get( this, "store" ).findAll( "twitchToken", null )
 				.then(function( records ) { return records.objectAt( 0 ); })
 				.then( this.validateToken.bind( this ) );
 		},
