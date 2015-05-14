@@ -95,7 +95,7 @@ define( [ "ember" ], function( Ember ) {
 		 * calculation to the view or to the controller, because they both aren't set up at the
 		 * time where the size is being calculated...
 		 */
-		itemSelector: Ember.required(),
+		itemSelector: "",
 
 
 		/**

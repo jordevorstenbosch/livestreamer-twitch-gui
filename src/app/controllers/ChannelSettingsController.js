@@ -19,9 +19,8 @@ define([
 				var attributeProxy = Ember.computed(
 					"model." + attr,
 					"settings." + attr,
-					function( key, value, oldValue ) {
-						// old CP-setter syntax (as of ember 1.12.0)
-						if ( arguments.length > 1 ) {
+					{
+						set: function( key, value, oldValue ) {
 							// don't accept changes if disabled
 							// selectboxes without `null` options trigger property changes on insert
 							if ( !get( this, "_" + attr ) ) {
@@ -29,7 +28,8 @@ define([
 							}
 							set( model, attr, value );
 							return value;
-						} else {
+						},
+						get: function() {
 							// return the global value if the custom value is null
 							var val = get( model, attr );
 							return val === customDefault
@@ -42,9 +42,8 @@ define([
 				// computed property for enabling/disabling the custom attribute
 				var attributeEnabled = Ember.computed(
 					"model." + attr,
-					function( key, value ) {
-						// old CP-setter syntax (as of ember 1.12.0)
-						if ( arguments.length > 1 ) {
+					{
+						set: function( key, value ) {
 							// false => set attr value to null (delete)
 							// true  => set attr value to global value (init)
 							value = !!value;
@@ -53,7 +52,8 @@ define([
 								: null
 							);
 							return value;
-						} else {
+						},
+						get: function() {
 							// false => use global attribute (default)
 							// true  => use custom attribute
 							return get( model, attr ) !== customDefault;
