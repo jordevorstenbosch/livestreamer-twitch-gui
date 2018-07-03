@@ -1,0 +1,7 @@
+{
+	"check-again": 604800000,
+	"githubreleases": {
+		"host": "https://api.github.com",
+		"namespace": "repos/streamlink/streamlink-twitch-gui"
+	}
+}

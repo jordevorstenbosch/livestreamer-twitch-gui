@@ -1,64 +1,62 @@
 module.exports = {
-	options: {
-		mode : "tgz",
-		level: 9
-	},
-
 	win32: {
 		options: {
 			mode   : "zip",
-			archive: "dist/<%= package.name %>-v<%= package.version %>-win32.zip"
+			level  : 9,
+			archive: "<%= dir.dist %>/<%= package.name %>-v<%= package.version %>-win32.zip"
 		},
 		expand : true,
-		cwd    : "build/releases/<%= package.name %>/win32",
+		cwd    : "<%= dir.releases %>/<%= package.name %>/win32",
 		src    : [ "**" ],
 		dest   : "<%= package.name %>"
 	},
 	win64: {
 		options: {
 			mode   : "zip",
-			archive: "dist/<%= package.name %>-v<%= package.version %>-win64.zip"
+			level  : 9,
+			archive: "<%= dir.dist %>/<%= package.name %>-v<%= package.version %>-win64.zip"
 		},
 		expand : true,
-		cwd    : "build/releases/<%= package.name %>/win64",
+		cwd    : "<%= dir.releases %>/<%= package.name %>/win64",
 		src    : [ "**" ],
 		dest   : "<%= package.name %>"
 	},
 
-	osx32: {
-		options: {
-			archive: "dist/<%= package.name %>-v<%= package.version %>-osx32.tar.gz"
-		},
-		expand : true,
-		cwd    : "build/releases/<%= package.name %>/osx32/<%= package.name %>.app/",
-		src    : [ "**" ],
-		dest   : "<%= package.config['display-name'] %>.app/"
-	},
+	// broken due to symlinks inside the NW.js app folder
+	// symlinks are supported by archiver ^2.0.0, but grunt-contrib-compress still uses ^1.3.0
+	// see the shell:compressMacOSarchive task instead
+	// the other tasks still use the options.archive value defined here, so don't remove it
 	osx64: {
 		options: {
-			archive: "dist/<%= package.name %>-v<%= package.version %>-osx64.tar.gz"
+			mode   : "tgz",
+			level  : 9,
+			archive: "<%= dir.dist %>/<%= package.name %>-v<%= package.version %>-macOS.tar.gz"
 		},
 		expand : true,
-		cwd    : "build/releases/<%= package.name %>/osx64/<%= package.name %>.app/",
+		cwd    : "<%= dir.releases %>/<%= package.name %>/osx64/<%= package.name %>.app/",
 		src    : [ "**" ],
-		dest   : "<%= package.config['display-name'] %>.app/"
+		dest   : "<%= main['display-name'] %>.app/"
 	},
 
 	linux32: {
 		options: {
-			archive: "dist/<%= package.name %>-v<%= package.version %>-linux32.tar.gz"
+			mode   : "tgz",
+			level  : 9,
+			archive: "<%= dir.dist %>/<%= package.name %>-v<%= package.version %>-linux32.tar.gz"
 		},
 		expand : true,
-		cwd    : "build/releases/<%= package.name %>/linux32",
+		cwd    : "<%= dir.releases %>/<%= package.name %>/linux32",
 		src    : [ "**" ],
 		dest   : "<%= package.name %>"
 	},
 	linux64: {
 		options: {
-			archive: "dist/<%= package.name %>-v<%= package.version %>-linux64.tar.gz"
+			mode   : "tgz",
+			level  : 9,
+			archive: "<%= dir.dist %>/<%= package.name %>-v<%= package.version %>-linux64.tar.gz"
 		},
 		expand : true,
-		cwd    : "build/releases/<%= package.name %>/linux64",
+		cwd    : "<%= dir.releases %>/<%= package.name %>/linux64",
 		src    : [ "**" ],
 		dest   : "<%= package.name %>"
 	}

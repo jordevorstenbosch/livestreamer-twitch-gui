@@ -1,8 +1,0 @@
-{
-	"tests": [
-		"test/semver",
-		"test/linkmatching",
-		"test/helpers",
-		"test/parameters"
-	]
-}

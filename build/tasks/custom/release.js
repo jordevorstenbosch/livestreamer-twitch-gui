@@ -1,19 +1,16 @@
+const platforms = require( "../common/platforms" );
+
+
 module.exports = function( grunt ) {
-	"use strict";
+	const task = "release";
+	const descr = `Build and compile the application. ${platforms.getList()}`;
 
-	var platforms = require( "../common/platforms" );
-
-	grunt.task.registerTask(
-		"release",
-		"Build and compile the project. " + platforms.getList(),
-		function() {
-			grunt.task.run( []
-				// make a fresh build
-				.concat([ "buildrelease" ])
-				// compile
-				.concat( platforms.getTasks( grunt, "compile", arguments ) )
-			);
-		}
-	);
-
+	grunt.task.registerTask( task, descr, function() {
+		grunt.task.run([
+			// build
+			"build:prod",
+			// compile
+			...platforms.getTasks( "compile", arguments )
+		]);
+	});
 };

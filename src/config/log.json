@@ -1,0 +1,4 @@
+{
+	"filename": "YYYY-MM-DD_HH-mm-ss[.log]",
+	"maxAgeDays": 7
+}

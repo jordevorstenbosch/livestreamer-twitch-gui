@@ -1,0 +1,52 @@
+{{form-button
+	classNames="btn-danger confirm-button"
+	icon="fa-heart-o"
+	iconanim=true
+	title=(if isLoading
+		""
+		(hotkey-title
+			"components.follow-button.confirm"
+			(find-by hotkeys "name" "confirm")
+			name=name
+		)
+	)
+	action=(unless isLocked
+		(if isExpanded (action "unfollow"))
+	)
+}}
+{{form-button
+	classNames="main-button"
+	class=(if isLoading
+		"btn-info"
+		(if isPromptVisible
+			"btn-success"
+			(if isSuccessful "btn-success" "btn-danger")
+		)
+	)
+	isLoading=(if isExpanded false isLoading)
+	icon=(if isPromptVisible
+		"fa-arrow-left"
+		(if isSuccessful "fa-heart" "fa-heart-o")
+	)
+	iconanim=(bool-not isExpanded)
+	title=(if isLoading
+		""
+		(hotkey-title
+			(if isPromptVisible
+				"components.follow-button.keep"
+				(if isSuccessful
+					"components.follow-button.unfollow"
+					"components.follow-button.follow"
+				)
+			)
+			(find-by hotkeys "name" "main")
+			name=name
+		)
+	)
+	action=(unless isLocked
+		(action (if isSuccessful
+			(if isExpanded "collapse" "expand")
+			"follow"
+		))
+	)
+}}

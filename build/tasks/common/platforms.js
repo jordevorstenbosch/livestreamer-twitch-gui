@@ -2,17 +2,13 @@ module.exports = {
 	platforms: {
 		win32: {
 			platform: "win32",
-			arch    : "x86"
+			arch    : "ia32"
 		},
 		win64: {
 			platform: "win32",
 			arch    : "x64"
 		},
 
-		osx32: {
-			platform: "darwin",
-			arch    : "x86"
-		},
 		osx64: {
 			platform: "darwin",
 			arch    : "x64"
@@ -20,7 +16,7 @@ module.exports = {
 
 		linux32: {
 			platform: "linux",
-			arch    : "x86"
+			arch    : "ia32"
 		},
 		linux64: {
 			platform: "linux",
@@ -29,26 +25,32 @@ module.exports = {
 	},
 
 	filters: {
-		win  : function( str ) { return   /^win\d+$/.test( str ); },
-		osx  : function( str ) { return   /^osx\d+$/.test( str ); },
-		linux: function( str ) { return /^linux\d+$/.test( str ); },
-		x86  : function( str ) { return    /^\D+32$/.test( str ); },
-		x64  : function( str ) { return    /^\D+64$/.test( str ); }
+		win( str )   { return   /^win\d+$/.test( str ); },
+		osx( str )   { return   /^osx\d+$/.test( str ); },
+		linux( str ) { return /^linux\d+$/.test( str ); },
+		x86( str )   { return    /^\D+32$/.test( str ); },
+		x64( str )   { return    /^\D+64$/.test( str ); }
 	},
 
-	getList: function() {
-		return "Optional platforms: all:x86:x64:" + Object.keys( this.platforms ).join( ":" );
+	getList() {
+		const list = Object.keys( this.platforms ).join( ":" );
+
+		return `Optional platforms: all:x86:x64:${list}`;
 	},
 
-	getPlatform: function( grunt, platforms ) {
-		var configs = this.platforms,
-		    filters = this.filters;
-		platforms = [].slice.call( platforms );
+	/**
+	 * @param {String[]} [platforms]
+	 * @returns {String[]}
+	 */
+	getPlatforms( platforms ) {
+		const { platforms: configs, filters } = this;
+		platforms = [ ...( platforms || [] ) ];
 
 		// all platforms or platforms by arch
 		if ( platforms.length === 1 ) {
-			var keys = Object.keys( configs ),
-			    res;
+			const keys = Object.keys( configs );
+			let res;
+
 			switch ( platforms[0] ) {
 				case "all":
 					return keys;
@@ -72,6 +74,7 @@ module.exports = {
 
 				case "32":
 				case "x86":
+				case "ia32":
 					res = keys.filter( filters.x86 );
 					if ( res.length ) { return res; }
 					break;
@@ -88,29 +91,30 @@ module.exports = {
 
 		// current platform
 		} else if ( platforms.length === 0 ) {
-			return Object.keys( configs ).filter(function( platform ) {
-				var config = configs[ platform ];
-				return	config.platform === process.platform
-					&&	( config.arch === null || config.arch === process.arch );
+			return Object.keys( configs ).filter( platform => {
+				const config = configs[ platform ];
+
+				return config.platform === process.platform
+				    && ( config.arch === null || config.arch === process.arch );
 			});
 
 		// validate given platform list
-		} else if ( platforms.every(function( platform ) {
-			return configs.hasOwnProperty( platform );
-		}) ) {
+		} else if ( platforms.every( configs.hasOwnProperty.bind( configs ) ) ) {
 			return platforms;
 		}
 
-		grunt.fail.fatal(
-			"Invalid platforms. " +
-			"Valid platforms are: all:" + Object.keys( configs ).join( ":" )
-		);
+		const list = Object.keys( configs ).join( ":" );
+
+		throw new Error( `Invalid platforms. Valid platforms are: all:${list}` );
 	},
 
-	getTasks: function( grunt, task, targets ) {
-		return this.getPlatform( grunt, targets )
-			.map(function( platform ) {
-				return task + ":" + platform;
-			});
+	/**
+	 * @param {string} task
+	 * @param {string[]} targets
+	 * @returns {string[]}
+	 */
+	getTasks( task, targets ) {
+		return this.getPlatforms( targets )
+			.map( platform => `${task}:${platform}` );
 	}
 };

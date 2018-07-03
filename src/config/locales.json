@@ -1,0 +1,21 @@
+{
+	"default": "en",
+	"locales": {
+		"en": "English",
+		"zh-tw": "Traditional Chinese"
+	},
+	"contributors": {
+		"en": [
+			{
+				"name": "Sebastian Meyer",
+				"github": "bastimeyer"
+			}
+		],
+		"zh-tw":[
+			{
+				"name": "Dxball",
+				"github": "dxball"
+			}
+		]
+	}
+}

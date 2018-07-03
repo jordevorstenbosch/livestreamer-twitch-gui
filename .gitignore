@@ -14,17 +14,15 @@ nbproject
 *.sublime-workspace
 .idea
 
+# gh-pages
+/_site/
+
 # dependencies
 /node_modules/
-/src/vendor/
 
 # builds
-/build/*
-!/build/tasks
-!/build/resources
+/build/cache/
+/build/releases/
+/build/tmp/
+/build/travis/data/
 /dist/
-
-# dev files
-/src/styles/app.css
-/src/styles/app.css.map
-/src/metadata.json

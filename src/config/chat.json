@@ -1,0 +1,274 @@
+{
+	"browser": {
+		"attributes": [
+			{
+				"name": "url",
+				"icon": "fa-link",
+				"type": "string",
+				"isUrl": true,
+				"defaultValue": "default"
+			}
+		]
+	},
+	"chromium": {
+		"exec": {
+			"win32": "chrome.exe",
+			"darwin": "Chromium",
+			"linux": [
+				"chromium",
+				"chromium-browser",
+				"chromium-dev",
+				"chromium-continuous-bin",
+				"chromium-snapshot-bin"
+			]
+		},
+		"fallback": {
+			"win32": [
+				"%LOCALAPPDATA%\\Chromium\\Application",
+				"%PROGRAMFILES%\\Chromium\\Application",
+				"%PROGRAMFILES(X86)%\\Chromium\\Application"
+			],
+			"darwin": [
+				"/Applications/Chromium.app/Contents/MacOS"
+			],
+			"linux": [
+				"/usr/bin",
+				"/usr/local/bin",
+				"/opt/chromium"
+			]
+		},
+		"attributes": [
+			{
+				"name": "exec",
+				"icon": "fa-cog",
+				"type": "string",
+				"isFile": true
+			},
+			{
+				"name": "args",
+				"icon": "fa-terminal",
+				"type": "string",
+				"isArgs": true
+			},
+			{
+				"name": "url",
+				"icon": "fa-link",
+				"type": "string",
+				"isUrl": true,
+				"defaultValue": "default"
+			}
+		]
+	},
+	"chrome": {
+		"exec": {
+			"win32": "chrome.exe",
+			"darwin": "Google Chrome",
+			"linux": [
+				"google-chrome",
+				"google-chrome-stable",
+				"google-chrome-unstable",
+				"google-chrome-beta",
+				"google-chrome-dev"
+			]
+		},
+		"fallback": {
+			"win32": [
+				"%LOCALAPPDATA%\\Google\\Chrome\\Application",
+				"%PROGRAMFILES%\\Google\\Chrome\\Application",
+				"%PROGRAMFILES(X86)%\\Google\\Chrome\\Application"
+			],
+			"darwin": [
+				"/Applications/Google Chrome.app/Contents/MacOS"
+			],
+			"linux": [
+				"/usr/bin",
+				"/usr/local/bin",
+				"/opt/google/chrome",
+				"/opt/google/chrome-unstable"
+			]
+		},
+		"attributes": [
+			{
+				"name": "exec",
+				"icon": "fa-cog",
+				"type": "string",
+				"isFile": true
+			},
+			{
+				"name": "args",
+				"icon": "fa-terminal",
+				"type": "string",
+				"isArgs": true
+			},
+			{
+				"name": "url",
+				"icon": "fa-link",
+				"type": "string",
+				"isUrl": true,
+				"defaultValue": "default"
+			}
+		]
+	},
+	"msie": {
+		"exec": {
+			"win32": "cscript.exe",
+			"darwin": false,
+			"linux": false
+		},
+		"fallback": {
+			"win32": [
+				"%WINDIR%\\SysWOW64",
+				"%WINDIR%\\system32"
+			],
+			"darwin": false,
+			"linux": false
+		},
+		"data": {
+			"script": "%NWJSAPPPATH%\\msie-minimal.vbs"
+		},
+		"attributes": [
+			{
+				"name": "url",
+				"icon": "fa-link",
+				"type": "string",
+				"isUrl": true,
+				"defaultValue": "default"
+			}
+		]
+	},
+	"chatty": {
+		"exec": {
+			"win32": "javaw.exe",
+			"darwin": "java",
+			"linux": "java"
+		},
+		"fallback": {
+			"win32": [
+				"%JAVA_HOME%\\bin",
+				"%JRE_HOME%\\bin",
+				"%PROGRAMDATA%\\Oracle\\Java\\javapath"
+			],
+			"darwin": [
+				"$JAVA_HOME/bin",
+				"$JRE_HOME/bin",
+				"/usr/bin"
+			],
+			"linux": [
+				"$JAVA_HOME/bin",
+				"$JRE_HOME/bin",
+				"/usr/bin",
+				"/etc/alternatives"
+			]
+		},
+		"jar": {
+			"win32": "chatty.jar",
+			"darwin": [
+				"Chatty.jar",
+				"chatty.jar"
+			],
+			"linux": "chatty.jar"
+		},
+		"jarfallback": {
+			"win32": false,
+			"darwin": [
+				"/Applications/Chatty"
+			],
+			"linux": [
+				"/usr/share/chatty"
+			]
+		},
+		"attributes": [
+			{
+				"name": "exec",
+				"icon": "fa-cog",
+				"type": "string",
+				"isFile": true
+			},
+			{
+				"name": "jar",
+				"icon": "fa-cog",
+				"type": "string",
+				"isFile": true
+			},
+			{
+				"name": "instance",
+				"icon": "fa-clone",
+				"type": "boolean",
+				"defaultValue": true
+			},
+			{
+				"name": "auth",
+				"icon": "fa-sign-in",
+				"type": "boolean",
+				"defaultValue": true
+			},
+			{
+				"name": "args",
+				"icon": "fa-terminal",
+				"type": "string",
+				"isArgs": true
+			}
+		]
+	},
+	"chatty-standalone": {
+		"exec": {
+			"win32": "Chatty.exe",
+			"darwin": false,
+			"linux": false
+		},
+		"fallback": {
+			"win32": [],
+			"darwin": false,
+			"linux": false
+		},
+		"attributes": [
+			{
+				"name": "exec",
+				"icon": "fa-cog",
+				"type": "string",
+				"isFile": true
+			},
+			{
+				"name": "instance",
+				"icon": "fa-clone",
+				"type": "boolean",
+				"defaultValue": true
+			},
+			{
+				"name": "auth",
+				"icon": "fa-sign-in",
+				"type": "boolean",
+				"defaultValue": true
+			},
+			{
+				"name": "args",
+				"icon": "fa-terminal",
+				"type": "string",
+				"isArgs": true
+			}
+		]
+	},
+	"custom": {
+		"attributes": [
+			{
+				"name": "exec",
+				"icon": "fa-cog",
+				"type": "string",
+				"isFile": true
+			},
+			{
+				"name": "args",
+				"icon": "fa-terminal",
+				"type": "string",
+				"isArgs": true
+			},
+			{
+				"name": "url",
+				"icon": "fa-link",
+				"type": "string",
+				"isUrl": true,
+				"defaultValue": "default"
+			}
+		]
+	}
+}

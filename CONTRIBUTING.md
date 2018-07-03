@@ -1,4 +1,4 @@
-# Contributing to Livestreamer Twitch GUI
+# Contributing to Streamlink Twitch GUI
 
 Want to get involved? Thanks! There are plenty of ways to help!
 
@@ -15,7 +15,7 @@ Please read the following guidelines before you [report an issue][issues]:
 
 3. **Isolate the demonstrable problem** — make sure that the code in the project's repository is *definitely* responsible for the issue.
 
-Please try to be as detailed as possible in your report too. What is your environment? What steps will reproduce the issue? What would you expect to be the outcome? All these details will help people to assess and fix any potential bugs.
+Please try to be as detailed as possible in your report too. What is your environment? What steps will reproduce the issue? What would you expect to be the outcome? All these details will help people to assess and fix any potential bugs. You can also consider using the [issue template][issue-template] when reporting an issue.
 
 
 ## Feature requests
@@ -23,33 +23,69 @@ Please try to be as detailed as possible in your report too. What is your enviro
 Feature requests are welcome. But take a moment to find out whether your idea fits with the scope and aims of the project. It's up to *you* to make a strong case to convince the project's developers of the merits of this feature. Please provide as much detail and context as possible.
 
 
-## Developing and building
-Livestreamer Twitch GUI is based on [NW.js (formerly Node-Webkit)][NW.js]. NW.js has to be installed on your machine in order to run this program - using a browser does not work. Have a look at the [NW.js wiki page][NW.js-wiki] to get some more informations on how to run NW.js apps. Also please ensure that either [io.js][io.js] or [Node.js][Node.js] and also [npm][npm] are installed so you can build the program.
+## Translating
 
-Building is simple:
+Please see the detailed translation guidelines on the project's [wiki][wiki].
+
+
+## Developing and building
+
+Streamlink Twitch GUI is based on [NW.js][NW.js].  
+Please visit the [NW.js website][NW.js-website] if you want to know more about NW.js apps.
+
+Building the application is simple. Please make sure that the latest stable versions of [Git][Git], [Node.js][Node.js] and [Yarn][yarn] (or [Npm][npm]) are installed on your system, so all dependencies can be installed and the application can be built and compiled.
+
+### Setup
 
 ```bash
-# globally install grunt-cli and bower - may require administrator privileges
-npm install -g grunt-cli bower
-# locally install all npm and bower dependencies
+# clone the repository
+git clone https://github.com/streamlink/streamlink-twitch-gui.git
+cd streamlink-twitch-gui
+
+# install dependencies via yarn (preferred way)
+yarn global add grunt-cli # may require administrator privileges
+yarn install
+# or use npm instead (discouraged)
+npm install --global grunt-cli # may require administrator privileges
 npm install
-# build and compile - executable will be created inside the build/releases folder
-grunt release
 ```
 
-Run `grunt --help` to list all other available grunt tasks.
+Streamlink Twitch GUI uses [Gruntjs][Gruntjs] and [Webpack][Webpack] as build tools. This is different from Ember.js based projects that are using ember-cli.  
+To get a list of all available grunt tasks, run `grunt --help`.  
+All task configs can be found in `build/tasks/{configs,custom}`.
 
-While developing, you can choose between two methods to run the program:
+### Developing
 
-1. **the "easy" method**
-   Simply run `grunt dev`. This task builds the project to the `build/tmp` folder with enabled debug flags and also starts a watcher task which rebuilds changed content from the `src` folder. Now start NW.js (`/path/to/nw build/tmp`).
+```bash
+grunt build
+```
 
-2. **the "source" method**
-   Another way of running the program is by starting it directly from the `src` folder (`/path/to/nw src`). Before you can do this, you first need to run the `grunt metadata less:source` tasks once. If you're working on the stylesheets, then you should start the watcher task `grunt less:source watch:lesssource` which automatically compiles it after each change.
+This will create a development build and will run it afterwards. If NW.js has not been downloaded yet, it will do this automatically.  
+Since NW.js is based on Chromium, you will find all the usual debugging tools. These can be accessed by clicking the button in the titlebar of the application or by opening `http://localhost:8888/` in your web browser. IDEs with internal NW.js debugging support can be used as well.  
+Once NW.js has been launched, file watchers will look for any changes being made to the source files and will then rebuild those parts of the application.
 
-The easiest way of debugging a NW.js application is by running `nw` with the `--remote-debugging-port=8888` parameter. Then you can comfortably access the developer console in your local browser at `http://localhost:8888/`. I recommend adding an alias for the `nw` + parameter command.
-If you're running the application from source or the compiled debug version, you're able to access NW.js' internal developer tools by clicking on the embedded button inside the titlebar.
-There also exist several IDEs with NW.js debugging support, too.
+### Testing
+
+```bash
+# run tests
+grunt test
+
+# keep running NW.js, show its window and rebuild tests on change
+grunt test:dev
+```
+
+### Building and compiling
+
+```bash
+# create a production build and compile it afterwards
+grunt release
+# or run both build steps explicitly
+grunt build:prod compile
+```
+
+The final build can be found in the `build/releases` directory.
+
+Both `release` and `compile` tasks support multiple *targets* for different platforms. Targets can be set by appending `:target` to the task name (eg. `grunt release:linux64:osx64`). See `build/tasks/common/platforms.js` for all available targets. By default, the currently used platform will be used.
 
 
 ## Pull requests
@@ -60,16 +96,16 @@ Good pull requests - patches, improvements, new features - are a fantastic help.
 
 Please adhere to the coding conventions used throughout a project (indentation, white space, accurate comments, etc.) and any other requirements (such as test coverage).
 
-Adhering to the following this process is the best way to get your work included in the project:
+Adhering to the following process is the best way to get your work included in the project:
 
 1. [Fork][howto-fork] the project, clone your fork, and configure the remotes:
    ```bash
    # Clone your fork of the repo into the current directory
-   git clone git@github.com:<YOUR-USERNAME>/livestreamer-twitch-gui.git
+   git clone git@github.com:<YOUR-USERNAME>/streamlink-twitch-gui.git
    # Navigate to the newly cloned directory
-   cd livestreamer-twitch-gui
+   cd streamlink-twitch-gui
    # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/bastimeyer/livestreamer-twitch-gui.git
+   git remote add upstream https://github.com/streamlink/streamlink-twitch-gui.git
    ```
 
 2. If you cloned a while ago, get the latest changes from upstream
@@ -106,15 +142,20 @@ under the terms of the [MIT License][license].
 This contributing guide has been adapted from [HTML5 boilerplate's guide][ref-h5bp].
 
 
-  [license]: https://github.com/bastimeyer/livestreamer-twitch-gui/blob/master/LICENSE
-  [issues]: https://github.com/bastimeyer/livestreamer-twitch-gui/issues
+  [license]: https://github.com/streamlink/streamlink-twitch-gui/blob/master/LICENSE
+  [issues]: https://github.com/streamlink/streamlink-twitch-gui/issues
+  [issue-template]: https://github.com/streamlink/streamlink-twitch-gui/blob/master/ISSUE_TEMPLATE.md
+  [wiki]: https://github.com/streamlink/streamlink-twitch-gui/wiki
   [howto-fork]: https://help.github.com/articles/fork-a-repo
   [howto-rebase]: https://help.github.com/articles/interactive-rebase
   [howto-format-commits]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
   [howto-open-pull-requests]: https://help.github.com/articles/using-pull-requests
   [NW.js]: https://github.com/nwjs/nw.js
-  [NW.js-wiki]: https://github.com/nwjs/nw.js/wiki
-  [io.js]: https://iojs.org
+  [NW.js-website]: http://nwjs.io
+  [Git]: https://git-scm.com
   [Node.js]: https://nodejs.org
+  [yarn]: https://yarnpkg.com
   [npm]: https://npmjs.org
+  [Gruntjs]: http://gruntjs.com
+  [Webpack]: https://webpack.github.io
   [ref-h5bp]: https://github.com/h5bp/html5-boilerplate/blob/master/CONTRIBUTING.md

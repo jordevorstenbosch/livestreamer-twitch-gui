@@ -1,27 +1,27 @@
 default:
-    - "dev"
-dev:
     - "build"
-    - "concurrent:dev_watchers"
-test:
-    - "jshint:test"
-    - "connect:test"
-    - "qunit"
 build:
-    - "jshint:tasks"
-    - "jshint:app"
-    - "clean:tmp"
-    - "copy:build"
-    - "metadata"
-    - "less:dev"
-    - "requirejs:dev"
-buildrelease:
-    - "jshint:tasks"
-    - "jshint:app"
+    - "build:dev"
+build:dev:
+    - "clean:tmp_dev"
+    - "webpack:dev"
+build:prod:
     - "test"
-    - "clean:tmp"
-    - "copy:build"
-    - "metadata"
-    - "less:release"
-    - "requirejs:release"
-    - "uglify"
+    - "clean:tmp_prod"
+    - "webpack:prod"
+build:prod:coverage:
+    - "test:coverage"
+    - "clean:tmp_prod"
+    - "webpack:prod"
+test:
+    - "clean:tmp_test"
+    - "webpack:test"
+    - "runtest"
+test:dev:
+    - "clean:tmp_test"
+    - "webpack:testdev"
+test:coverage:
+    - "clean:tmp_test"
+    - "clean:tmp_coverage"
+    - "webpack:coverage"
+    - "runtest:coverage"

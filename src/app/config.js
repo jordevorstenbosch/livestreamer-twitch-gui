@@ -1,62 +1,13 @@
-/* global requirejs */
-
-/**
- * RequireJS Configuration
- * This will also be used as the requirejs optimization config
- */
-requirejs.config({
-	"shim": {
-		"app": [
-			"jquery",
-			"ember",
-			"ember-htmlbars",
-			"ember-data",
-			"ember-data-ls"
-		],
-		"ember": {
-			"exports": "Ember"
-		},
-		"ember-data": {
-			"deps": [ "ember" ],
-			"exports": "DS"
-		},
-		"ember-data-ls": [ "ember-data" ]
-	},
-
-	"map": {
-		"*": {
-			"nwGui"     : "nwjs/nwGui",
-			"nwWindow"  : "nwjs/nwWindow",
-			"nwScreen"  : "nwjs/nwScreen"
-		}
-	},
-
-	"paths": {
-		// RequireJS plugins
-		"text": "../vendor/requirejs-text/text",
-
-		// Vendor
-		"ember"         : "../vendor/ember/ember.debug",
-		"ember-htmlbars": "../vendor/ember/ember-template-compiler",
-		"ember-data"    : "../vendor/ember-data/ember-data",
-		"ember-data-ls" : "../vendor/ember-localstorage-adapter/localstorage_adapter",
-		"jquery"        : "../vendor/jquery/dist/jquery",
-		"Selecter"      : "../vendor/Selecter/jquery.fs.selecter",
-		"moment"        : "../vendor/momentjs/moment",
-
-		// Application paths
-		"root"        : "..",
-		"initializers": "initializers",
-		"mixins"      : "mixins",
-		"services"    : "services",
-		"models"      : "models",
-		"views"       : "views",
-		"controllers" : "controllers",
-		"routes"      : "routes",
-		"components"  : "components",
-		"store"       : "store",
-		"utils"       : "utils",
-		"gui"         : "gui",
-		"templates"   : "../templates"
-	}
-});
+export { default as main } from "../config/main.json";
+export { default as log } from "../config/log.json";
+export { default as locales } from "../config/locales.json";
+export { default as files } from "files-from-json-loader?file=../config/files.json!files-from-json";
+export { default as vars } from "../config/vars.json";
+export { default as update } from "../config/update.json";
+export { default as themes } from "../config/themes.json";
+export { default as langs } from "../config/langs.json";
+export { default as streaming } from "../config/streaming.json";
+export { default as players } from "../config/players.json";
+export { default as twitch } from "../config/twitch.json";
+export { default as notification } from "../config/notification.json";
+export { default as chat } from "../config/chat.json";

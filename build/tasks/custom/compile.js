@@ -1,25 +1,23 @@
+const platforms = require( "../common/platforms" );
+const tasks = require( "../configs/compile" );
+
+
 module.exports = function( grunt ) {
-	"use strict";
+	const task = "compile";
+	const descr = `Compile the built application. ${platforms.getList()}`;
 
-	var	platforms = require( "../common/platforms" ),
-		tasks = require( "../configs/compile" );
-
-	grunt.task.registerTask(
-		"compile",
-		"Compile the built project. " + platforms.getList(),
-		function() {
-			platforms.getPlatform( grunt, arguments )
-				.forEach(function( platform ) {
-					grunt.task.run( []
-						// run these tasks before the compilation
-						.concat( tasks[ platform ].before || [] )
-						// the actual compile tasks
-						.concat([ "nodewebkit:" + platform ])
-						// run these tasks after the compilation
-						.concat( tasks[ platform ].after || [] )
-					);
-				});
-		}
-	);
+	grunt.task.registerTask( task, descr, function() {
+		platforms.getPlatforms( arguments )
+			.forEach( platform => {
+				grunt.task.run([
+					// run these tasks before the compilation
+					...( tasks[ platform ].before || [] ),
+					// the actual compile tasks
+					`nwjs:${platform}`,
+					// run these tasks after the compilation
+					...( tasks[ platform ].after || [] )
+				]);
+			});
+	});
 
 };

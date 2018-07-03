@@ -1,0 +1,106 @@
+<fieldset>
+{{#settings-row
+	(t "settings.streams.quality.title")
+	(t "settings.streams.quality.description")
+	icon="fa-eye"
+}}
+	{{#drop-down
+		value=model.streaming.quality
+		content=contentStreamingQuality
+		as |dropdown|
+	}}
+		{{#dropdown.selection as |selection|}}
+			{{t (concat "qualities." selection.value)}}
+		{{/dropdown.selection}}
+		{{#dropdown.list as |item|}}
+			{{t (concat "qualities." item.value)}}
+		{{/dropdown.list}}
+	{{/drop-down}}
+{{/settings-row}}
+
+{{#if model.advanced}}
+	{{#if isStreamlink}}
+		{{#settings-row
+			(t "settings.streams.qualitypresets.title")
+			(t "settings.streams.qualitypresets.description")
+			icon="fa-list-ul"
+			notes=(t "settings.streams.qualitypresets.notes")
+			documentation="--stream-sorting-excludes"
+		}}
+			{{#each qualitiesStreamlink as |quality|}}
+				<div class="quality-preset">
+					{{input
+						type="text"
+						value=(mut (get (get model.streaming.qualities quality.id) "exclude"))
+						placeholder=(if (is-null quality.exclude) (t "settings.streams.qualitypresets.dont-exclude") quality.exclude)
+						disabled=(is-null quality.exclude)
+					}}
+					{{input
+						type="text"
+						value=(mut (get (get model.streaming.qualities quality.id) "quality"))
+						placeholder=quality.quality
+					}}
+					<button type="button" tabindex="-1" class="btn">{{t (concat "qualities." quality.id)}}</button>
+				</div>
+			{{/each}}
+		{{/settings-row}}
+	{{else}}
+		{{#settings-row
+			(t "settings.streams.qualitypresets-livestreamer.title")
+			(t "settings.streams.qualitypresets-livestreamer.description")
+			icon="fa-list-ul"
+		}}
+			{{#each qualitiesLivestreamer as |quality|}}
+				<div class="quality-preset">
+					{{input
+						type="text"
+						placeholder=quality.quality
+						value=(mut (get model.streaming.qualitiesOld quality.id))
+					}}
+					<button type="button" tabindex="-1" class="btn">{{t (concat "qualities." quality.id)}}</button>
+				</div>
+			{{/each}}
+		{{/settings-row}}
+	{{/if}}
+{{/if}}
+</fieldset>
+
+<fieldset class="{{unless model.advanced 'hidden'}}">
+{{#settings-row
+	(t "settings.streams.vodcast-regexp.title")
+	(t "settings.streams.vodcast-regexp.description")
+	icon="fa-search"
+	notes=(t "settings.streams.vodcast-regexp.notes")
+}}
+	{{input
+		type="text"
+		value=model.streams.vodcast_regexp
+		placeholder=DEFAULT_VODCAST_REGEXP
+		class="col-xs-12"
+	}}
+{{/settings-row}}
+</fieldset>
+
+<fieldset>
+{{#settings-row
+	(t "settings.streams.modal-close-launch.title")
+	(t "settings.streams.modal-close-launch.description")
+	icon="fa-info-circle"
+}}
+	{{check-box
+		(t "settings.streams.modal-close-launch.checkbox")
+		checked=model.streams.modal_close_launch
+	}}
+{{/settings-row}}
+
+{{#settings-row
+	(t "settings.streams.modal-close-end.title")
+	(t "settings.streams.modal-close-end.description")
+	icon="fa-info-circle"
+}}
+	{{check-box
+		(t "settings.streams.modal-close-end.checkbox")
+		checked=model.streams.modal_close_end
+	}}
+{{/settings-row}}
+</fieldset>

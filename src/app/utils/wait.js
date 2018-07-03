@@ -1,24 +1,17 @@
-define(function() {
-
-	/**
-	 * @param {number} time
-	 * @param {boolean?} reject
-	 * @returns {Function}
-	 */
-	return function wait( time, reject ) {
-		var method = reject
-			? "reject"
-			: "resolve";
-
-		return function waitPromise( data ) {
-			var defer = Promise.defer();
-
+/**
+ * @param {number} time
+ * @param {boolean?} fail
+ * @returns {Function}
+ */
+function wait( time, fail ) {
+	return function waitPromise( data ) {
+		return new Promise(function( resolve, reject ) {
 			setTimeout(function() {
-				defer[ method ]( data );
+				( fail ? reject : resolve )( data );
 			}, time );
-
-			return defer.promise;
-		};
+		});
 	};
+}
 
-});
+
+export default wait;

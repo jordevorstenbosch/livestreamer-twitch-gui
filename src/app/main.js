@@ -1,26 +1,32 @@
-if ( typeof DEBUG === "undefined" ) {
-	DEBUG = true;
-}
 
-if ( DEBUG ) {
-	window.initialized = false;
+global.process.removeAllListeners();
 
-	// don't show the node-webkit exception page during debug mode
-	process.on( "uncaughtException", function() {
-		if ( window.initialized ) { return; }
+global.process.on( "uncaughtException", function( err ) {
+	// do nothing if window was fully initialized
+	if ( window && window.initialized ) { return; }
+
+	// show the app window and dev tools while being in debug mode
+	if ( DEBUG ) {
 		try {
-			// show the application window and the dev tools on any error
-			// before the ready event fired
-			var nwWindow = window.nwDispatcher.requireNwGui().Window.get();
+			let nwWindow = require( "nw.gui" ).Window.get();
 			nwWindow.show();
 			nwWindow.showDevTools();
-		} catch( e ) {}
-	});
-}
+			return;
+		} catch ( e ) {}
+	}
 
-
-define(function( require ) {
-	require( [ "config" ], function() {
-		require( [ "app" ] );
-	});
+	// write to stderr and kill the process with error code 1
+	global.process.stderr.write([
+		"Could not initialize application window",
+		require( "util" ).inspect( err ),
+		""
+	].join( "\n" ) );
+	global.process.exit( 1 );
 });
+
+
+require( "shim" );
+require( "jquery" );
+require( "ember-source/dist/ember.debug" );
+require( "./logger" );
+require( "./app" );

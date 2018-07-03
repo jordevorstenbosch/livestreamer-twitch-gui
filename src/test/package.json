@@ -1,0 +1,20 @@
+{
+	"name": "streamlink-twitch-gui-test",
+	"version": "0.0.1",
+
+	"main": "index.html",
+
+	"window": {
+		"title": "Streamlink Twitch GUI Test",
+		"frame": true,
+		"resizable": true,
+		"show": false,
+		"position": "center",
+		"width": 960,
+		"height": 540,
+		"min_width": 960,
+		"min_height": 540
+	},
+
+	"chromium-args": "--enable-features=NativeNotifications"
+}
